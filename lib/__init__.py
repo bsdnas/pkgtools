@@ -15,8 +15,19 @@ import subprocess
 
 # Sef likes this line a lot.
 _os_type = "TrueNAS"
-UPDATE_SERVER = "https://update.ixsystems.com/" + _os_type
-MASTER_UPDATE_SERVER = "https://update-master.ixsystems.com/" + _os_type
+
+# Сервер обновлений — наш.
+#
+# Унаследованный адрес указывал на update.ixsystems.com, и установленная
+# система честно получала оттуда список поездов iX: девять веток TrueNAS
+# SCALE, то есть Linux. Пользователю форка предлагалось "обновиться" на
+# чужую операционную систему другого семейства.
+#
+# Путь задан явно, а не через _os_type: эта переменная участвует ещё и в
+# именовании манифестов (Avatar()), и менять её здесь значило бы задеть
+# больше, чем адрес сервера.
+UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
+MASTER_UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 
 # For signature verification
 IX_CRL = "https://update-master.ixsystems.com/updates/ix_crl.pem"
