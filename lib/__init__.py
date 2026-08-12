@@ -15,8 +15,19 @@ import subprocess
 
 # Sef likes this line a lot.
 _os_type = "TrueNAS"
-UPDATE_SERVER = "https://update.ixsystems.com/" + _os_type
-MASTER_UPDATE_SERVER = "https://update-master.ixsystems.com/" + _os_type
+
+# The update server is ours.
+#
+# The inherited address pointed at update.ixsystems.com, and an installed
+# system dutifully fetched the iX train list from there: nine TrueNAS SCALE
+# branches, that is, Linux. A user of this fork was being offered an "upgrade"
+# to someone else's operating system from a different family.
+#
+# The path is spelled out rather than derived from _os_type: that variable
+# also takes part in naming manifests (Avatar()), so changing it here would
+# affect more than the server address.
+UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
+MASTER_UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 
 # For signature verification
 IX_CRL = "https://update-master.ixsystems.com/updates/ix_crl.pem"
