@@ -14,7 +14,17 @@ import subprocess
 # platform-specific stuff.
 
 # Sef likes this line a lot.
-_os_type = "TrueNAS"
+#
+# The product name. It is not cosmetic: its length is subtracted when the
+# boot environment name is built (Update.py):
+#
+#     new_boot_name = Version()[len(Avatar() + "-"):]
+#
+# With _os_type = "TrueNAS" and version "BSDnas-15-MASTER-202608122140" the
+# version lost eight characters instead of seven, and the environment ended up
+# named "TrueNAS-5-MASTER-202608122140" -- someone else's brand and a truncated
+# number. Observed on a live update over a train.
+_os_type = "BSDnas"
 
 # The update server is ours.
 #
