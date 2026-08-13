@@ -406,6 +406,15 @@ class Manifest(object):
 
         if self.Signature() is None:
             return not SIGNATURE_FAILURE
+        # We have no certificate authority of our own: the previous scheme
+        # verified the signature against the iX root certificate. Until we do,
+        # a signed manifest is rejected outright -- silently skipping the check
+        # would be worse than refusing.
+        elif IX_ROOT_CA_FILE is None:
+            log.debug("VerifySignature: a signature is present but there is "
+                      "nothing to check it with: the project certificate "
+                      "authority is not configured")
+            return False
         # Probably need a way to ignore the signature
         else:
             import subprocess

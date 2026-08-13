@@ -650,21 +650,21 @@ class Configuration(object):
             for url in file_url:
                 url_exc = None
                 try:
+                    # Headers for the request to the update server.
+                    #
+                    # This used to carry X-iXSystems-HostID (a unique machine
+                    # identifier) and X-iXSystems-License, which let the update
+                    # server track individual installations. The fork has no use
+                    # for that: serving a manifest only requires the train and
+                    # the version being upgraded from.
                     header_dict = {
-                        "X-iXSystems-Project" : Avatar(),
-                        "X-iXSystems-Version" : current_sequence,
+                        "X-BSDnas-Version" : current_sequence,
                         "User-Agent" : "%s=%s" % (AVATAR_VERSION, current_version)
                     }
                     if current_version:
-                        header_dict["X-iXSystems-Version-Name"] = current_version
+                        header_dict["X-BSDnas-Version-Name"] = current_version
                     if current_train:
-                        header_dict["X-iXSystems-Train"] = current_train
-                    if host_id:
-                        header_dict["X-iXSystems-HostID"] = host_id
-                    if reason:
-                        header_dict["X-iXSystems-Reason"] = reason
-                    if license_data:
-                        header_dict["X-iXSystems-License"] = license_data
+                        header_dict["X-BSDnas-Train"] = current_train
 
                     # Allow restarting
                     if intr_ok:

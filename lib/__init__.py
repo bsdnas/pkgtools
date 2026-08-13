@@ -39,10 +39,20 @@ _os_type = "BSDnas"
 UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 MASTER_UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 
-# For signature verification
-IX_CRL = "https://update-master.ixsystems.com/updates/ix_crl.pem"
+# Update signature verification.
+#
+# The inherited scheme trusted the iX certificate authority: the iX-CA.pem
+# root certificate shipped in the image and the revocation list was fetched
+# from their server. For this fork that would mean someone else's
+# infrastructure vouching for the authenticity of our own updates.
+#
+# We have no authority of our own yet: updates are checked against the
+# checksums in the manifest, and the manifest arrives over HTTPS
+# (signing = false in /data/update.conf). Signing the manifests is the next
+# step, and it has to be done with our own key.
+IX_CRL = None
 DEFAULT_CA_FILE = "/usr/local/share/certs/ca-root-nss.crt"
-IX_ROOT_CA_FILE = "/usr/local/share/certs/iX-CA.pem"
+IX_ROOT_CA_FILE = None
 UPDATE_CERT_DIR = "/usr/local/share/certs"
 UPDATE_CERT_PRODUCTION = UPDATE_CERT_DIR + "/Production.pem"
 UPDATE_CERT_NIGHTLIES = UPDATE_CERT_DIR + "/Nightlies.pem"
