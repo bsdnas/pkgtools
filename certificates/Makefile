@@ -7,7 +7,6 @@ NIGHTLY_CERTS=	FreeNAS-Nightly.pem nightlies-1.pem nightlies-2.pem
 
 FILES=	Production.pem \
 	Nightlies.pem \
-	iX-CA.pem
 
 Production.pem:	${PRODUCTION_CERTS}
 	cat ${.ALLSRC} > ${.TARGET}

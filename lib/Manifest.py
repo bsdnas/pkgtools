@@ -406,6 +406,14 @@ class Manifest(object):
 
         if self.Signature() is None:
             return not SIGNATURE_FAILURE
+        # Свой удостоверяющий центр не заведён: прежняя схема проверяла
+        # подпись корневым сертификатом iX. Пока его нет, подписанный
+        # манифест честно отвергается — молча пропустить проверку было бы
+        # хуже, чем отказать.
+        elif IX_ROOT_CA_FILE is None:
+            log.debug("VerifySignature: подпись есть, но проверять её нечем: "
+                      "удостоверяющий центр проекта не настроен")
+            return False
         # Probably need a way to ignore the signature
         else:
             import subprocess

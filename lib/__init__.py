@@ -39,10 +39,19 @@ _os_type = "BSDnas"
 UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 MASTER_UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 
-# For signature verification
-IX_CRL = "https://update-master.ixsystems.com/updates/ix_crl.pem"
+# Проверка подписи обновлений.
+#
+# Унаследованная схема доверяла удостоверяющему центру iX: корневой
+# сертификат iX-CA.pem ставился в образ, а список отзыва тянулся с их
+# сервера. Для форка это означало бы, что подлинность наших же обновлений
+# удостоверяет чужая инфраструктура.
+#
+# Свой центр пока не заведён: обновления проверяются контрольными суммами
+# из манифеста, манифест — по HTTPS (signing = false в /data/update.conf).
+# Подпись манифестов — следующий шаг, и делать её нужно своим ключом.
+IX_CRL = None
 DEFAULT_CA_FILE = "/usr/local/share/certs/ca-root-nss.crt"
-IX_ROOT_CA_FILE = "/usr/local/share/certs/iX-CA.pem"
+IX_ROOT_CA_FILE = None
 UPDATE_CERT_DIR = "/usr/local/share/certs"
 UPDATE_CERT_PRODUCTION = UPDATE_CERT_DIR + "/Production.pem"
 UPDATE_CERT_NIGHTLIES = UPDATE_CERT_DIR + "/Nightlies.pem"

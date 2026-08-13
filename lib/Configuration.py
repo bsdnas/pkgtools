@@ -650,21 +650,21 @@ class Configuration(object):
             for url in file_url:
                 url_exc = None
                 try:
+                    # Заголовки запроса к серверу обновлений.
+                    #
+                    # Прежде сюда уходили X-iXSystems-HostID (уникальный
+                    # идентификатор машины) и X-iXSystems-License — то есть
+                    # сервер обновлений мог отслеживать конкретные установки.
+                    # Форку это не нужно: чтобы отдать манифест, достаточно
+                    # знать поезд и версию, с которой обновляются.
                     header_dict = {
-                        "X-iXSystems-Project" : Avatar(),
-                        "X-iXSystems-Version" : current_sequence,
+                        "X-BSDnas-Version" : current_sequence,
                         "User-Agent" : "%s=%s" % (AVATAR_VERSION, current_version)
                     }
                     if current_version:
-                        header_dict["X-iXSystems-Version-Name"] = current_version
+                        header_dict["X-BSDnas-Version-Name"] = current_version
                     if current_train:
-                        header_dict["X-iXSystems-Train"] = current_train
-                    if host_id:
-                        header_dict["X-iXSystems-HostID"] = host_id
-                    if reason:
-                        header_dict["X-iXSystems-Reason"] = reason
-                    if license_data:
-                        header_dict["X-iXSystems-License"] = license_data
+                        header_dict["X-BSDnas-Train"] = current_train
 
                     # Allow restarting
                     if intr_ok:

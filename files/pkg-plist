@@ -10,6 +10,5 @@ usr/local/lib/freenasOS/PackageFile.py
 usr/local/lib/freenasOS/Train.py
 usr/local/lib/freenasOS/Update.py
 usr/local/lib/freenasOS/__init__.py
-usr/local/share/certs/iX-CA.pem
 usr/local/share/certs/Nightlies.pem
 usr/local/share/certs/Production.pem
