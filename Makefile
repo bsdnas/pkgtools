@@ -11,8 +11,7 @@ SUBDIR= create_manifest \
 	pkgify \
 	freenas-update \
 	freenas-release \
-	freenas-verify \
-	certificates
+	freenas-verify
 
 beforeinstall:
 	${INSTALL} -d ${DESTDIR}${BINDIR}
