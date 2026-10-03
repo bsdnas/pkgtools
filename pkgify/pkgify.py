@@ -352,12 +352,12 @@ def main():
 #        "name" : None,
 #        "version" : None,
 #        "origin" : None,
-        "comment" : "FreeNAS package",
-        "maintainer" : "dev@freenas.org",
+        "comment" : "BSDnas package",
+        "maintainer" : "bsd@22r.tech",
         "prefix" : "/",
-        "www" : "http://www.ixsystems.com/",
+        "www" : "https://bsdnas.com/",
         "licenselogic" : "single",
-        "desc" : "FreeNAS OS Package",
+        "desc" : "BSDnas OS Package",
         }
         
         

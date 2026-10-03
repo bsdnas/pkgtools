@@ -253,14 +253,14 @@ def main():
     # Some valid, but stupid, defaults.
     # "arch" isn't used by the freenas package system
     manifest = {
-        "www": "http://www.freenas.org",
+        "www": "https://bsdnas.com/",
         "arch": "freebsd:10:x86:64",
-        "maintainer": "something@freenas.org",
-        "comment": "FreeNAS Package",
-        "origin": "freenas/os",
+        "maintainer": "bsd@22r.tech",
+        "comment": "BSDnas Package",
+        "origin": "bsdnas/os",
         "prefix": "/",
         "licenselogic": "single",
-        "desc": "FreeNAS Package",
+        "desc": "BSDnas Package",
         "requires-reboot": True,
     }
     root = None
