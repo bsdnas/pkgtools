@@ -53,6 +53,11 @@ MASTER_UPDATE_SERVER = "https://updates.bsdnas.com/BSDnas"
 IX_CRL = None
 DEFAULT_CA_FILE = "/usr/local/share/certs/ca-root-nss.crt"
 IX_ROOT_CA_FILE = None
+# These name the per-train certificates the inherited scheme used. The fork
+# ships none of them any more, and nothing reaches them: VerifySignature()
+# gives up above, where IX_ROOT_CA_FILE is None, before the X.509 path that
+# reads these is entered. They are kept so that path still reads as it did
+# upstream rather than being half removed.
 UPDATE_CERT_DIR = "/usr/local/share/certs"
 UPDATE_CERT_PRODUCTION = UPDATE_CERT_DIR + "/Production.pem"
 UPDATE_CERT_NIGHTLIES = UPDATE_CERT_DIR + "/Nightlies.pem"
