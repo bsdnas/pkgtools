@@ -41,6 +41,11 @@ CONFIG_DEFAULT = "Defaults"
 CONFIG_SEARCH = "Search"
 CONFIG_SERVER = "update_server"
 
+# Fetching from the update server: attempts per file and the growing pause
+# between them, for connections that drop or time out.
+NETWORK_ATTEMPTS = 4
+NETWORK_BACKOFF = 3
+
 UPDATE_SERVER_NAME_KEY = "name"
 UPDATE_SERVER_MASTER_KEY = "master"
 UPDATE_SERVER_URL_KEY = "url"
@@ -670,8 +675,23 @@ class Configuration(object):
                     if intr_ok:
                         header_dict["Range"] = "bytes=%d-" % read
 
-                    furl = requests.get(url, timeout=10, verify=DEFAULT_CA_FILE,
-                                       stream=True, headers=header_dict)
+                    # A dropped connection or a timeout is retried before this
+                    # server is given up on; an answer -- 404 included -- is not.
+                    # One timeout used to fail a whole update: on 2026-10-06 the
+                    # train list alone stopped two runs in a row on "Read timed
+                    # out" while the server, measured from elsewhere, answered.
+                    for attempt in range(NETWORK_ATTEMPTS):
+                        try:
+                            furl = requests.get(url, timeout=10, verify=DEFAULT_CA_FILE,
+                                               stream=True, headers=header_dict)
+                            break
+                        except (requests.exceptions.ConnectionError,
+                                requests.exceptions.Timeout) as e:
+                            if attempt == NETWORK_ATTEMPTS - 1:
+                                raise
+                            log.warning("Attempt %d to fetch %s failed (%s), retrying",
+                                        attempt + 1, url, e)
+                            time.sleep(NETWORK_BACKOFF * (attempt + 1))
                     furl.raise_for_status()
                 except requests.exceptions.HTTPError as error:
                     if error.response.status_code == HTTP_RANGE.value:
