@@ -1116,12 +1116,13 @@ def DownloadUpdate(train, directory, get_handler=None,
 
         # Almost done:  get a changelog if one exists for the train
         # If we can't get it, we don't care.
-        try:
-            with conf.GetChangeLog(train, save_dir=directory, handler=get_handler):
-                pass
-        except AttributeError:
-            # GetChangeLog can return None, which throws things, no pun intended
-            pass
+        # GetChangeLog returns None when there is no changelog. This used to
+        # be left to `with None` raising AttributeError, which it did on
+        # Python 2; Python 3 raises TypeError instead, and a train without a
+        # ChangeLog.txt failed the whole update.
+        changelog = conf.GetChangeLog(train, save_dir=directory, handler=get_handler)
+        if changelog is not None:
+            changelog.close()
         # Then save the manifest file.
         # Create the SEQUENCE file.
         with open(directory + "/SEQUENCE", "w") as f:
